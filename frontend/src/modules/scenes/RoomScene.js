@@ -1,18 +1,18 @@
 import * as PIXI from 'pixi.js'
 // importing object classes
-import LavaLamp from "../Objects/LavaLamp"
-import Character from "../Objects/Character"
+import LavaLamp from "../objects/LavaLamp"
+import Character from "../objects/Character"
 import PC_Desk from "../objects/PCDesk"
-import Coffee_Cup from "../Objects/CoffeeCup"
+import Coffee_Cup from "../objects/CoffeeCup"
 import OfflineSign from '../objects/OfflineSign'
 import OnlineOfflineSign from '../objects/OnlineOfflineSign'
-import Background from "../Objects/Background"
-import Posters from "../Objects/Poster"
-import WindowFrame from "../Objects/WindowFrame"
-import Cables from "../Objects/Cables"
+import Background from "../objects/Background"
+import Posters from "../objects/Poster"
+import WindowFrame from "../objects/WindowFrame"
+import Cables from "../objects/Cables"
 import TV_Stand from "../objects/TVStand"
-import Bed from "../Objects/Bed"
-import BookShelf from "../Objects/Bookshelf"
+import Bed from "../objects/Bed"
+import BookShelf from "../objects/Bookshelf"
 import { desk_spritesheet_json2, lava_lamp_spritesheet_json, character_spritesheet_json,
     coffee_spritesheet_json, online_spritesheet_json, character_offline_spritesheet_json, 
     selection_arrow_sprite_sheet_json, tv_stand_sprite_sheet_json,
