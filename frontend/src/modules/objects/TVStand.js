@@ -3,7 +3,7 @@
 import * as PIXI from 'pixi.js'
 import { GlowFilter } from 'pixi-filters'
 import { desk_spritesheet_json2 } from '../../json/desk_spritesheet'
-import SelectionArrow from '../Objects/SelectionArrow'
+import SelectionArrow from './SelectionArrow'
 import SpotifyScene from './tv_scenes/SpotifyScene'
 import Screensaver from './tv_scenes/Screensaver'
 

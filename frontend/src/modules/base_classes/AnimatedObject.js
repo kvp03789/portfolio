@@ -3,7 +3,7 @@
 import * as PIXI from 'pixi.js'
 import { GlowFilter } from 'pixi-filters'
 import { desk_spritesheet_json2 } from '../../json/desk_spritesheet'
-import SelectionArrow from '../Objects/SelectionArrow'
+import SelectionArrow from '../objects/SelectionArrow'
 
 export default class AnimatedObject {
     constructor(sprite_sheet, x_pos, y_pos, app, arrowSpriteSheet, roomEntitiesContainer, desktopContainer){
