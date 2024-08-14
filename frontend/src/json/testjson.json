@@ -1,0 +1,25 @@
+{ "frames": {
+   "desk_sprite_sheet2.png": {
+    "frame": { "x": 0, "y": 0, "w": 4075, "h": 125 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 4075, "h": 125 },
+    "sourceSize": { "w": 4075, "h": 125 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.2-x64",
+  "format": "RGBA8888",
+  "size": { "w": 4075, "h": 125 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

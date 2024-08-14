@@ -1,0 +1,5 @@
+# Ignore all node_modules directories anywhere in the project
+node_modules/
+
+# ignore .env
+.env

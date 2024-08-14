@@ -1,0 +1,106 @@
+{ "frames": {
+   "pixel rain_0.gif": {
+    "frame": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_1.gif": {
+    "frame": { "x": 500, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_2.gif": {
+    "frame": { "x": 1000, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_3.gif": {
+    "frame": { "x": 1500, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_4.gif": {
+    "frame": { "x": 2000, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_5.gif": {
+    "frame": { "x": 2500, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_6.gif": {
+    "frame": { "x": 3000, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_7.gif": {
+    "frame": { "x": 3500, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_8.gif": {
+    "frame": { "x": 4000, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_9.gif": {
+    "frame": { "x": 4500, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   },
+   "pixel rain_10.gif": {
+    "frame": { "x": 5000, "y": 0, "w": 500, "h": 500 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 500, "h": 500 },
+    "sourceSize": { "w": 500, "h": 500 },
+    "duration": 1
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.5-x64",
+  "image": "rain_sprite_sheet.png",
+  "format": "I8",
+  "size": { "w": 5500, "h": 500 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

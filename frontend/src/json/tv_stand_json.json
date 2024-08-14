@@ -1,0 +1,80 @@
+{ "frames": {
+   "tv_stand_ase_0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   },
+   "tv_stand_ase_1.aseprite": {
+    "frame": { "x": 212, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   },
+   "tv_stand_ase_2.aseprite": {
+    "frame": { "x": 424, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   },
+   "tv_stand_ase_3.aseprite": {
+    "frame": { "x": 636, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   },
+   "tv_stand_ase_4.aseprite": {
+    "frame": { "x": 848, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   },
+   "tv_stand_ase_5.aseprite": {
+    "frame": { "x": 1060, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   },
+   "tv_stand_ase_6.aseprite": {
+    "frame": { "x": 1272, "y": 0, "w": 212, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 212, "h": 179 },
+    "sourceSize": { "w": 212, "h": 179 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.5-x64",
+  "image": "tv_stand_sprite_sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 1484, "h": 179 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "shadow", "opacity": 255, "blendMode": "normal" },
+   { "name": "stand", "opacity": 255, "blendMode": "normal" },
+   { "name": "cables/console", "opacity": 255, "blendMode": "normal" },
+   { "name": "tv", "opacity": 255, "blendMode": "normal" },
+   { "name": "CONTENT", "opacity": 255, "blendMode": "normal" },
+   { "name": "CONTENT TXT", "opacity": 255, "blendMode": "normal" },
+   { "name": "glare", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
