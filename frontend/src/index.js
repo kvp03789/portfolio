@@ -48,7 +48,7 @@ let isOnline
 
 async function getWeather () {
     console.log('fetching weather data...')
-    console.log('DEBUG: NODE_ENV is: process.env.NODE_ENV', )
+    console.log('DEBUG: NODE_ENV is:', process.env.NODE_ENV)
     const options = {
         method: 'GET',
         headers: {
