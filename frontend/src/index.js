@@ -54,8 +54,8 @@ async function getWeather () {
             },
         mode: "cors", 
     }
-    
-    const weather = await fetch('http://localhost:3000/weather')
+    let url = process.env.NODE_ENV == "development" ? 'http://localhost:3000/weather' : 'portfolio_backend.railway.internal/weather'
+    const weather = await fetch(url)
     const json = await weather.json()
     console.log('weather json: ', json)
     return json
@@ -63,7 +63,8 @@ async function getWeather () {
 }
 
 async function getSpotify(){
-    await fetch('http://localhost:3000/spotify')
+    let url = process.env.NODE_ENV == "development" ? 'http://localhost:3000/spotify' : 'portfolio_backend.railway.internal/spotify'
+    await fetch(url)
 }
 
 window.onload = async () => {
