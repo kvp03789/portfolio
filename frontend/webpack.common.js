@@ -12,7 +12,7 @@ module.exports = {
     },
     devServer: {
         host: '0.0.0.0',
-        disableHostCheck: true, // Disables host header checking
+        // disableHostCheck: true, // Disables host header checking
         allowedHosts: 'all', // Allows all hosts (optional but more secure than disabling host check)
       },
     
