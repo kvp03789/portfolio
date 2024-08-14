@@ -10,7 +10,11 @@ module.exports = {
         assetModuleFilename: 'assets/img/[name][hash][ext]',
         clean: true
     },
-    
+    devServer: {
+        host: '0.0.0.0',
+        disableHostCheck: true, // Disables host header checking
+        allowedHosts: 'all', // Allows all hosts (optional but more secure than disabling host check)
+      },
     
     module:{
         rules:[
