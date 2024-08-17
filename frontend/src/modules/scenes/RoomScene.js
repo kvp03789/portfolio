@@ -82,7 +82,7 @@ export default class RoomScene{
         else{
             await this.create_character_offline_animated_object()
         }
-        this.soccerBall = new Ball(this.assets.SoccerBall, 0, 0, this.app, this.roomEntitiesContainer)
+        this.soccerBall = new Ball(this.assets.SoccerBall, 100, 0, this.app, this.roomEntitiesContainer)
 
         await this.create_coffee_cup_animated_object()
         
