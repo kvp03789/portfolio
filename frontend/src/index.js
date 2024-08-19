@@ -8,6 +8,7 @@ import { roomSceneManifest, loadAssets, pngImages } from './image_imports.js'
 import * as TWEEN from "@tweenjs/tween.js"
 import PixelLoveIcon from './img/icons/love.png'
 import PixelWindowIcon from './img/icons/heart_window.png'
+import PixelMusicIcon from './img/icons/music.png'
 import getLastPlayedTrack from '../../backend/routes/lastFm.js'
 
 const WIDTH = 800
@@ -92,11 +93,13 @@ window.onload = async () => {
 
     const aboutWindow= new AboutWindow()
     const twitterWindow = new TwitterStatusWindow()
+    const musicWindow = new LastPlayedWindow()
     const mainOutsideContainer = document.createElement('div')
     mainOutsideContainer.classList.add("main-outside-container")
     document.body.append(mainOutsideContainer)
     aboutWindow.init()
     twitterWindow.init()
+    musicWindow.init(lastPlayedJson)
     
     const application = new Application()
     await application.init(true, weatherJson, lastPlayedJson)
@@ -196,6 +199,42 @@ class TwitterStatusWindow{
         
         this.titleContainerDiv.append(this.icon, this.title)
         this.bodyContainerDiv.append(this.bodyParagraph)
+        this.containerDiv.append(this.titleContainerDiv, this.bodyContainerDiv)
+        document.querySelector(".main-outside-container").append(this.containerDiv)
+    }
+}
+
+class LastPlayedWindow{
+    constructor(){
+        this.icon = new Image()
+        this.icon.src = PixelMusicIcon
+        this.trackIcon = new Image()
+        this.containerDiv = document.createElement('div')
+        this.titleContainerDiv = document.createElement('div')
+        this.title = document.createElement('h3')
+        this.bodyContainerDiv = document.createElement('div')
+        this.bodyParagraph = document.createElement('h5')
+        this.bodyParagraphAgo = document.createElement('h5')
+    }
+
+    init(lastPlayed){
+        this.icon.classList.add("small-icon")
+        this.trackIcon.classList.add("small-icon", "track-icon")
+        this.titleContainerDiv.classList.add("music-title-container-div")
+        this.containerDiv.classList.add("music-container", "section-container")
+        this.title.classList.add("music-title", "section-title")
+        this.bodyContainerDiv.classList.add("music-body-container-div")
+        this.bodyParagraph.classList.add("music-body-paragraph")
+        this.bodyParagraphAgo.classList.add("music-body-paragraph")
+
+        this.title.textContent = "last song"
+        this.bodyParagraph.textContent = `${lastPlayed.artistName} - ${lastPlayed.songTitle}`
+        this.bodyParagraphAgo.textContent = `${lastPlayed.playedAgo}`
+
+        // document.querySelector(".track-icon").src = lastPlayed.imageUrl
+        
+        this.titleContainerDiv.append(this.icon, this.trackIcon, this.title)
+        this.bodyContainerDiv.append(this.bodyParagraph, this.bodyParagraphAgo)
         this.containerDiv.append(this.titleContainerDiv, this.bodyContainerDiv)
         document.querySelector(".main-outside-container").append(this.containerDiv)
     }

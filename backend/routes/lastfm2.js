@@ -21,8 +21,10 @@ async function getLastPlayedTrack() {
             const songTitle = track.name;
             const playedAt = track.date ? track.date['#text'] : 'Now Playing';
             const playedAgo = track.date ? getTimeAgo(new Date(track.date.uts * 1000)) : 'Currently Playing';
+            const imageUrl = track.image.find(img => img.size === 'large')['#text'] || track.image.find(img => img.size === 'extralarge')['#text'];
+            console.log('IMAGE URL: ', imageUrl)
 
-            return { artistName, songTitle, playedAt, playedAgo };
+            return { artistName, songTitle, playedAt, playedAgo, imageUrl };
         } else {
             return { artistName: '', songTitle: '', playedAt: '', playedAgo: 'No recent tracks found' };
         }

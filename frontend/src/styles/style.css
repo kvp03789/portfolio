@@ -97,6 +97,31 @@ body{
     color: rgba(227, 227, 227, 0.696);
     margin: 15px;
   }
+
+  .music-title-container-div{
+    display: flex;
+    margin: 5px;
+}
+
+  .music-container{
+    border: 2px solid rgba(179, 179, 179, 0.529);
+    border-radius: 5px;
+    height:fit-content;
+  }
+
+  .music-body-container-div{
+    display: flex;
+    padding: 5px;
+  }
+
+  .music-body-paragraph{
+    display: flex;
+    flex-direction: column;
+    font-family: Flexi;
+    color: rgba(227, 227, 227, 0.696);
+    margin: 15px;
+    display: block;
+  }
   
   .hidden{
     transform: scaleY(0);
