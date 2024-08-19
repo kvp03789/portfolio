@@ -8,7 +8,7 @@ import SpotifyScene from './tv_scenes/SpotifyScene'
 import Screensaver from './tv_scenes/Screensaver'
 
 export default class TV_Stand {
-    constructor(sprite_sheet, x_pos, y_pos, app, arrowSpriteSheet, roomEntitiesContainer, desktopContainer, TVStandImage, pngAssets, weatherJson, weatherIcons){
+    constructor(sprite_sheet, x_pos, y_pos, app, arrowSpriteSheet, roomEntitiesContainer, desktopContainer, TVStandImage, pngAssets, weatherJson, weatherIcons, lastPlayedJson){
         
         this.app = app
         this.numberOfFrames = 0
@@ -25,6 +25,7 @@ export default class TV_Stand {
 
         this.desktopIsDisplaying = false
         this.weatherJson = weatherJson
+        this.lastPlayedJson = lastPlayedJson
 
         // Set up mouse hover event for deskSprite
         this.sprite.interactive = true;
@@ -48,7 +49,7 @@ export default class TV_Stand {
         this.sceneIndex = 0
         this.sceneList = [
             {
-                sprite: new SpotifyScene(this.sprite, this.x_pos, this.y_pos, 'red', this.pngAssets, this.tvContainer)
+                sprite: new SpotifyScene(this.sprite, this.x_pos, this.y_pos, 'red', this.pngAssets, this.tvContainer, this.lastPlayedJson)
             },
             {
                 sprite: new Screensaver(this.pngAssets, this.weatherJson, this.weatherIcons)

@@ -25,7 +25,7 @@ export default class Ball {
         //as user holds down mouse button mousePower builds and increases ballspeed on mouseup
         this.mousePower = 0
         this.mouseIsHolding = false
-        
+
         this.sprite.on('mousedown', this.handlePowerUp)
         this.sprite.on('mouseup', this.handlePowerRelease)
 
@@ -42,7 +42,7 @@ export default class Ball {
         //gravity affects the y velocity
         this.yv += this.gravity
         
-        //move the ball in the direction based on xv/yv vectors at this.speed
+        //move the ball in the direction based on xv/yv vectors by this.speed
         this.sprite.x += this.xv * this.speed
         this.sprite.y += this.yv * this.speed
         
@@ -54,7 +54,7 @@ export default class Ball {
             this.xv *= -.5
         }
 
-        //make ball boucne off top and bottom of screen
+        //make ball bounce off top and bottom of screen
         if (this.sprite.y <= 10){
             this.yv *= -.5
         }
@@ -62,15 +62,14 @@ export default class Ball {
             this.yv *= -.5
             this.sprite.y = this.app.screen.height - this.sprite.height;
         }
-        
-        // this.sprite.y += this.yv
 
         //slow the ball down because of friction 
         this.xv *= this.friction
         this.yv *= this.friction
 
         //rotate the ball
-        if(this.xv != 0){
+        
+        if (this.xv !== 0 || this.yv !== 0){
             this.sprite.rotation += (this.xv * .5 / 2)
         }
 
@@ -125,7 +124,7 @@ export default class Ball {
 
         //reset mousePower to 0 and mouseIsHolding to false
         this.mouseIsHolding = false
-        this.mousePower = 0
+        this.mousePower = 0 
     }
 
 }

@@ -28,7 +28,7 @@ import Ball from '../objects/Ball'
 import OutsideWindow from '../objects/OutsideWindow'
 
 export default class RoomScene{
-    constructor(app, set_state, assets, sprite_sheets, onlineStatus, icons, weatherJson, weatherIcons){
+    constructor(app, set_state, assets, sprite_sheets, onlineStatus, icons, weatherJson, weatherIcons, lastPlayedJson){
         this.app = app
         this.set_state = set_state
 
@@ -50,6 +50,8 @@ export default class RoomScene{
 
         this.displayDesktop = false
         this.isDesktopDisplaying = false
+
+        this.lastPlayedJson = lastPlayedJson
     }
 
 
@@ -82,8 +84,9 @@ export default class RoomScene{
         else{
             await this.create_character_offline_animated_object()
         }
+        
         this.soccerBall = new Ball(this.assets.SoccerBall, 100, 0, this.app, this.roomEntitiesContainer)
-
+        
         await this.create_coffee_cup_animated_object()
         
         this.app.stage.addChild(this.roomEntitiesContainer)
@@ -253,7 +256,7 @@ export default class RoomScene{
         await spritesheet.parse();
         
 
-        this.tvStandObject = new TV_Stand(spritesheet, 246, 296.5, this.app, arrowSpriteSheet, this.roomEntitiesContainer, this.desktopContainer, this.assets.TVStandImg, this.assets, this.weatherJson, this.weatherIcons)
+        this.tvStandObject = new TV_Stand(spritesheet, 246, 296.5, this.app, arrowSpriteSheet, this.roomEntitiesContainer, this.desktopContainer, this.assets.TVStandImg, this.assets, this.weatherJson, this.weatherIcons, this.lastPlayedJson)
     }
 
     run = (delta) =>{

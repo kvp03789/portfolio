@@ -2,8 +2,9 @@ import { CRTFilter } from "pixi-filters"
 import { TextStyle, Text, Graphics, Sprite, Texture, Container } from "pixi.js"
 
 export default class SpotifyScene{
-    constructor(tv_stand_sprite, x, y, color, pngAssets, tv_container){
+    constructor(tv_stand_sprite, x, y, color, pngAssets, tv_container, lastPlayedJson){
         
+        this.lastPlayedJson = lastPlayedJson
         this.tv_stand_sprite = tv_stand_sprite
         this.x = x
         this.y = y
@@ -38,7 +39,7 @@ export default class SpotifyScene{
         });
     
         this.text = new Text({
-            text: 'recent song title - dj artist guy',
+            text: `${this.lastPlayedJson.artistName} - ${this.lastPlayedJson.songTitle}  ${this.lastPlayedJson.playedAgo}`,
             style: this.style,
         });
         this.textX_start = -50
@@ -62,7 +63,7 @@ export default class SpotifyScene{
         });
 
         this.secondText = new Text({
-            text: 'recent song title - dj artist guy',
+            text: `${this.lastPlayedJson.artistName} - ${this.lastPlayedJson.songTitle}  ${this.lastPlayedJson.playedAgo}`,
             style: this.style,
         });
         this.secondTextX_start = this.text.x - (this.text.width + 50)

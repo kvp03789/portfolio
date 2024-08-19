@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
 
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${process.env.OPEN_WEATHER_KEY}`)
     const json = await response.json()
-    console.log(json)
+    console.log('successfully fetched weather data!')
     let temp = json.main.temp
     let desc = json.weather[0].description
     let iconURL = `https://openweathermap.org/img/wn/${json.weather.icon}@2x.png`

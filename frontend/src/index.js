@@ -6,6 +6,9 @@ import { importAll } from "./utils.js"
 import * as PIXI from 'pixi.js'
 import { roomSceneManifest, loadAssets, pngImages } from './image_imports.js'
 import * as TWEEN from "@tweenjs/tween.js"
+import PixelLoveIcon from './img/icons/love.png'
+import PixelWindowIcon from './img/icons/heart_window.png'
+import getLastPlayedTrack from '../../backend/routes/lastFm.js'
 
 const WIDTH = 800
 const HEIGHT = 600
@@ -64,16 +67,41 @@ async function getWeather () {
     // const APIKEY = await APIKEYRESPONSE.json() 
 }
 
-async function getSpotify(){
-    let url = process.env.NODE_ENV == "development" ? 'http://localhost:3000/spotify' : 'portfolio_backend.railway.internal/spotify'
-    await fetch(url)
+async function awaitGetLastFm(){
+    console.log('fetching lastfm data...')
+    let url = process.env.NODE_ENV == "development" ? 'http://localhost:3000/lastfm' : 'portfolio_backend.railway.internal/lastfm'
+    const response = await fetch(url)
+    const json = await response.json()
+    console.log('last fm data fetched successfully! ', json.lastPlayed)
+    const returnedJson = json.lastPlayed
+    return returnedJson
+}
+
+async function getTweet(){
+    let url = process.env.NODE_ENV == "development" ? 'http://localhost:3000/twitter' : 'portfolio_backend.railway.internal/twitter'
+    const mostRecentTweet = await fetch(url)
+    const json = await mostRecentTweet.json()
+    console.log('tweet json: ', json)
+    return json
 }
 
 window.onload = async () => {
-    // const spotifyData = await getSpotify()
+    const lastPlayedJson = await awaitGetLastFm()
     const weatherJson = await getWeather()
+    // const tweet = await getTweet()
+
+    const aboutWindow= new AboutWindow()
+    const twitterWindow = new TwitterStatusWindow()
+    const mainOutsideContainer = document.createElement('div')
+    mainOutsideContainer.classList.add("main-outside-container")
+    document.body.append(mainOutsideContainer)
+    aboutWindow.init()
+    twitterWindow.init()
+    
     const application = new Application()
-    await application.init(true, weatherJson)
+    await application.init(true, weatherJson, lastPlayedJson)
+
+    
 }
     
     
@@ -112,6 +140,67 @@ window.onload = async () => {
     // app.ticker.add(application.mainLoop)
 // };
 
+class AboutWindow{
+    constructor(){
+        this.icon = new Image()
+        this.icon.src = PixelLoveIcon
+        this.containerDiv = document.createElement('div')
+        this.titleContainerDiv = document.createElement('div')
+        this.title = document.createElement('h3')
+        this.bodyContainerDiv = document.createElement('div')
+        this.bodyParagraph = document.createElement('p')
+    }
+
+    init(){
+        this.icon.classList.add("small-icon")
+        this.titleContainerDiv.classList.add("about-title-container-div")
+        this.containerDiv.classList.add("about-container", "section-container")
+        this.title.classList.add("about-title", "section-title")
+        this.bodyContainerDiv.classList.add("about-body-container-div")
+        this.bodyParagraph.classList.add("about-body-paragraph")
+
+        this.title.textContent = "Welcome to kvp0.dev!"
+        this.bodyParagraph.textContent = "welcome to my cozy web den. it's still very \
+        much a work in progress so keep coming back and checking on things!\
+        i'll have more stuff in my room as time goes on :3\
+        in the meantime explore around"
+        
+        this.titleContainerDiv.append(this.icon, this.title)
+        this.bodyContainerDiv.append(this.bodyParagraph)
+        this.containerDiv.append(this.titleContainerDiv, this.bodyContainerDiv)
+        document.querySelector(".main-outside-container").append(this.containerDiv)
+    }
+}
+
+class TwitterStatusWindow{
+    constructor(){
+        this.icon = new Image()
+        this.icon.src = PixelWindowIcon
+        this.containerDiv = document.createElement('div')
+        this.titleContainerDiv = document.createElement('div')
+        this.title = document.createElement('h3')
+        this.bodyContainerDiv = document.createElement('div')
+        this.bodyParagraph = document.createElement('p')
+    }
+
+    init(){
+        this.icon.classList.add("small-icon")
+        this.titleContainerDiv.classList.add("status-title-container-div")
+        this.containerDiv.classList.add("status-container", "section-container")
+        this.title.classList.add("status-title", "section-title")
+        this.bodyContainerDiv.classList.add("status-body-container-div")
+        this.bodyParagraph.classList.add("status-body-paragraph")
+
+        this.title.textContent = "current status"
+        this.bodyParagraph.textContent = "ummm i'm just coding n stuff"
+        
+        this.titleContainerDiv.append(this.icon, this.title)
+        this.bodyContainerDiv.append(this.bodyParagraph)
+        this.containerDiv.append(this.titleContainerDiv, this.bodyContainerDiv)
+        document.querySelector(".main-outside-container").append(this.containerDiv)
+    }
+}
+
 
 export default class Application{
     constructor(){
@@ -125,7 +214,7 @@ export default class Application{
         
     }
 
-    init = async (isOnline, weatherJson) => {
+    init = async (isOnline, weatherJson, lastPlayedJson) => {
         try {
             await this.app.init({ width: 800, height: 600, preference:'webgl' });
             document.body.append(this.app.canvas)
@@ -139,7 +228,7 @@ export default class Application{
             this.stateManager = new StateManager('room_scene')
             this.currentState = this.stateManager.currentState
 
-            this.roomScene = new RoomScene(this.app, this.set_state, this.assets, this.sprite_sheets, isOnline, this.icons, weatherJson, this.weatherIcons)
+            this.roomScene = new RoomScene(this.app, this.set_state, this.assets, this.sprite_sheets, isOnline, this.icons, weatherJson, this.weatherIcons, lastPlayedJson)
             this.desktopScene = new DesktopScene(this.app, this.set_state, this.assets, this.sprite_sheets)
 
             this.statesObject = {

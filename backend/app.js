@@ -7,7 +7,7 @@ const cors = require('cors')
 require('dotenv').config();
 const statusRouter = require('./routes/status')
 const weatherRouter = require('./routes/weather')
-const spotifyRouter = require('./routes/spotify')
+const lastFmRouter = require('./routes/lastfm2.js')
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/status', statusRouter)
 app.use('/weather', weatherRouter)
-app.use('/spotify', spotifyRouter)
+app.use('/lastfm', lastFmRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
