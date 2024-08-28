@@ -10,6 +10,9 @@ import PixelLoveIcon from './img/icons/love.png'
 import PixelWindowIcon from './img/icons/heart_window.png'
 import PixelMusicIcon from './img/icons/music.png'
 import getLastPlayedTrack from '../../backend/routes/lastFm.js'
+import RoomSound from './sounds/4am nostalgia.mp3';
+import './westieCursor.js'
+
 
 const WIDTH = 800
 const HEIGHT = 600
@@ -25,8 +28,6 @@ let clickX = false
 let clickY = false
 
 let isOnline
-
-
 
 // window.onload = async function() {
 //     //fetching discord online status
@@ -86,7 +87,22 @@ async function getTweet(){
     return json
 }
 
+function createAudio(){
+
+    // Create an audio element
+    const audio = new Audio(RoomSound);
+    
+    // Autoplay the audio
+    audio.autoplay = true;
+    audio.loop = true; // Optional: Loop the audio
+    
+    // Append audio element to the body
+    document.body.appendChild(audio);
+    console.log('audio set up!', audio.src)
+}
+
 window.onload = async () => {
+    
     const lastPlayedJson = await awaitGetLastFm()
     const weatherJson = await getWeather()
     // const tweet = await getTweet()
@@ -100,7 +116,7 @@ window.onload = async () => {
     aboutWindow.init()
     twitterWindow.init()
     musicWindow.init(lastPlayedJson)
-    
+    createAudio()
     const application = new Application()
     await application.init(true, weatherJson, lastPlayedJson)
 
@@ -163,7 +179,7 @@ class AboutWindow{
         this.bodyParagraph.classList.add("about-body-paragraph")
 
         this.title.textContent = "Welcome to kvp0.dev!"
-        this.bodyParagraph.textContent = "welcome to my cozy web den. it's still very \
+        this.bodyParagraph.textContent = "hi im kvp0 and welcome to my cozy web den ^-^ it's still very \
         much a work in progress so keep coming back and checking on things!\
         i'll have more stuff in my room as time goes on :3\
         in the meantime explore around"
@@ -261,13 +277,14 @@ export default class Application{
             // PIXI.Assets.backgroundLoadBundle(['png', 'sprite_sheets']);
             // const assets = await PIXI.Assets.loadBundle('png');
             this.assets = await PIXI.Assets.loadBundle('png');
+            this.songsObject = await PIXI.Assets.loadBundle('sound');
             this.sprite_sheets = await PIXI.Assets.loadBundle('sprite_sheets')
             this.icons = await PIXI.Assets.loadBundle('icons')
             this.weatherIcons = await PIXI.Assets.loadBundle('weather_icons')
             this.stateManager = new StateManager('room_scene')
             this.currentState = this.stateManager.currentState
 
-            this.roomScene = new RoomScene(this.app, this.set_state, this.assets, this.sprite_sheets, isOnline, this.icons, weatherJson, this.weatherIcons, lastPlayedJson)
+            this.roomScene = new RoomScene(this.app, this.set_state, this.assets, this.sprite_sheets, isOnline, this.icons, weatherJson, this.weatherIcons, lastPlayedJson, this.songsObject)
             this.desktopScene = new DesktopScene(this.app, this.set_state, this.assets, this.sprite_sheets)
 
             this.statesObject = {

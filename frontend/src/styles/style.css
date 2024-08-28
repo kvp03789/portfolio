@@ -23,6 +23,8 @@ body{
   justify-content: center;
   align-items: flex-start;
   background-color: rgb(0, 0, 0);
+  height: 100vh;
+  width: 100vw;
 }
 
 .glass-overlay {
@@ -39,6 +41,12 @@ body{
   canvas{
     /* position:fixed; */
     z-index: 1;
+  }
+
+  .cursor-canvas{
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
   }
 
   .main-outside-container{

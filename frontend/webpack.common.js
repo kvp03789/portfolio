@@ -25,7 +25,20 @@ module.exports = {
             {
                 test: /\.(svg|png|jpe?g|gif)$/i,
                 type: "asset/resource"
-        },
+            },
+            {
+                test: /\.(mp3|wav|ogg)$/, // Match audio files
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[hash].[ext]', // Configure output file naming
+                            outputPath: 'audio/', // Output directory for audio files
+                            publicPath: 'audio/' // Public path used in the generated bundle
+                        }
+                    }
+                ]
+            }
         ]
     },
     plugins: [

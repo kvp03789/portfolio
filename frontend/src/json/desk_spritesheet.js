@@ -7,6 +7,7 @@ import CharacterOfflineSpriteSheet from '../img/sprite_sheets/character_offline_
 import SelectionArrowSpriteSheet from '../img/sprite_sheets/selection_arrow_sprite_sheet.png'
 import TVStandSpriteSheet from '../img/sprite_sheets/tv_stand_sprite_sheet.png'
 import PixelRainSpriteSheet from '../img/sprite_sheets/rain_sprite_sheet.png'
+import SpeakerSpriteSheet from '../img/sprite_sheets/speaker_sprite_sheet.png'
 
 
 export const desk_spritesheet_json2 = 
@@ -1577,6 +1578,88 @@ export const rain_sprite_sheet =
       "pixel_rain_10.gif"
   ]}
 }
+
+export const speaker_sprite_sheet_json = { "frames": {
+  "speaker_animated_0.aseprite": {
+   "frame": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  },
+  "speaker_animated_1.aseprite": {
+   "frame": { "x": 69, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  },
+  "speaker_animated_2.aseprite": {
+   "frame": { "x": 138, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  },
+  "speaker_animated_3.aseprite": {
+   "frame": { "x": 207, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  },
+  "speaker_animated_4.aseprite": {
+   "frame": { "x": 276, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  },
+  "speaker_animated_5.aseprite": {
+   "frame": { "x": 345, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  },
+  "speaker_animated_6.aseprite": {
+   "frame": { "x": 414, "y": 0, "w": 69, "h": 70 },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": { "x": 0, "y": 0, "w": 69, "h": 70 },
+   "sourceSize": { "w": 69, "h": 70 },
+   "duration": 100
+  }
+},
+"meta": {
+ "app": "https://www.aseprite.org/",
+ "version": "1.3.7-x64",
+ "image": SpeakerSpriteSheet,
+ "format": "RGBA8888",
+ "size": { "w": 483, "h": 70 },
+ "scale": "1",
+ "frameTags": [
+ ],
+ "layers": [
+  { "name": "Layer 1", "opacity": 255, "blendMode": "normal" },
+  { "name": "Layer 2", "opacity": 255, "blendMode": "normal" }
+ ],
+ "slices": [
+ ]
+},
+"animations": {
+  "main": [
+      "speaker_animated_0.aseprite", "speaker_animated_1.aseprite", "speaker_animated_2.aseprite", "speaker_animated_3.aseprite", "speaker_animated_4.aseprite", 
+      "speaker_animated_5.aseprite", "speaker_animated_6.aseprite"
+  ]}
+}
+
 
 
 

@@ -16,7 +16,7 @@ import BookShelf from "../objects/Bookshelf"
 import { desk_spritesheet_json2, lava_lamp_spritesheet_json, character_spritesheet_json,
     coffee_spritesheet_json, online_spritesheet_json, character_offline_spritesheet_json, 
     selection_arrow_sprite_sheet_json, tv_stand_sprite_sheet_json,
-    rain_sprite_sheet} from '../../json/desk_spritesheet'
+    rain_sprite_sheet, speaker_sprite_sheet_json} from '../../json/desk_spritesheet'
 import Plant from '../objects/Plant'
 import DesktopBackground from '../objects/DesktopBackground'
 import { CRTFilter, PixelateFilter } from 'pixi-filters'
@@ -26,13 +26,22 @@ import ProjectsIcon from '../icons/ProjectsIcon'
 import PowerIcon from '../icons/PowerIcon'
 import Ball from '../objects/Ball'
 import OutsideWindow from '../objects/OutsideWindow'
+import Speaker from '../objects/Speaker'
+import PlayButton from '../speaker_buttons/PlayButton'
+import PauseButton from '../speaker_buttons/PauseButton'
+import CloseButton from '../speaker_buttons/CloseButton'
+import TrackSlider from '../speaker_buttons/TrackSlider'
+import VolumeSlider from '../speaker_buttons/VolumeSlider'
+import NextButton from '../speaker_buttons/NextButton'
+import PreviousButton from '../speaker_buttons/PreviousButton'
 
 export default class RoomScene{
-    constructor(app, set_state, assets, sprite_sheets, onlineStatus, icons, weatherJson, weatherIcons, lastPlayedJson){
+    constructor(app, set_state, assets, sprite_sheets, onlineStatus, icons, weatherJson, weatherIcons, lastPlayedJson, songsObject){
         this.app = app
         this.set_state = set_state
 
         this.assets = assets
+        this.songsObject = songsObject
         this.sprite_sheets = sprite_sheets
         this.icons = icons
         this.weatherIcons = weatherIcons
@@ -51,6 +60,9 @@ export default class RoomScene{
         this.displayDesktop = false
         this.isDesktopDisplaying = false
 
+        this.displaySpeakerMenu = false
+        this.isSpeakerMenuDisplaying = false
+
         this.lastPlayedJson = lastPlayedJson
     }
 
@@ -58,6 +70,7 @@ export default class RoomScene{
     initializeAssets = async () => {
         this.roomEntitiesContainer = new PIXI.Container()
         await this.initializeDesktopAssets()
+        await this.initializeSpeakerMenuAssets()
         
         this.roomEntitiesContainer.label = "room_entities"
         this.backgroundObject = new Background(this.assets.BackgroundImg, 0, 0, this.app, this.roomEntitiesContainer)
@@ -85,10 +98,10 @@ export default class RoomScene{
             await this.create_character_offline_animated_object()
         }
         
-        this.soccerBall = new Ball(this.assets.SoccerBall, 100, 0, this.app, this.roomEntitiesContainer)
         
+        await this.create_speaker_object()
         await this.create_coffee_cup_animated_object()
-        
+        this.soccerBall = new Ball(this.assets.SoccerBall, 100, 0, this.app, this.roomEntitiesContainer)
         this.app.stage.addChild(this.roomEntitiesContainer)
         
         // this.coffeeCupObject = new Coffee_Cup(this.assets.CoffeeSpriteSheet, 250, 350)
@@ -120,6 +133,56 @@ export default class RoomScene{
         this.desktopContainer.width = 0
         // this.desktopContainer.height = 0
 
+    }
+
+    initializeSpeakerMenuAssets = async () => {
+        this.speakerContainer = new PIXI.Container({isRenderGroup: true})
+        this.speakerContainer.label = 'speaker_container'
+
+        this.speakerMenuBackground = new PIXI.Sprite(this.assets.SpeakerMenuBackground)
+        this.speakerMenuBackground.anchor.set(.5, .5)
+        this.speakerMenuBackground.x = 400
+        this.speakerMenuBackground.y = 300
+        this.speakerMenuBackground.alpha = 0
+        this.speakerContainer.addChild(this.speakerMenuBackground)
+
+        //speaker buttons setup
+        this.speakerButtonsContainer = new PIXI.Container()
+        this.speakerButtonsContainer.label = 'speaker_buttons_container'
+
+        this.speakerSliderContainer = new PIXI.Container()
+        this.speakerSliderContainer.label = 'speaker_sliders_container'
+
+        const buttonSpacingSize = 6
+        const buttonWidth = 68
+        const buttonOffset = 150
+        this.speakerPreviousButton = new PreviousButton(this.assets.SpeakerMenuPrevious, buttonOffset + (buttonSpacingSize + buttonWidth), 23, this.app, this.speakerContainer, this.speakerButtonsContainer)        
+        this.speakerPlayButton = new PlayButton(this.assets.SpeakerMenuPlay, (buttonOffset + 2 * (buttonSpacingSize + buttonWidth)), 23, this.app, this.speakerContainer, this.speakerButtonsContainer)
+        this.speakerPauseButton = new PauseButton(this.assets.SpeakerMenuPause, buttonOffset + 3 * (buttonSpacingSize + buttonWidth), 23, this.app, this.speakerContainer, this.speakerButtonsContainer)
+        this.speakerNextButton = new NextButton(this.assets.SpeakerMenuNext, buttonOffset + 4 * (buttonSpacingSize + buttonWidth), 23, this.app, this.speakerContainer, this.speakerButtonsContainer)
+
+        this.trackSlider = new TrackSlider(this.assets.SpeakerMenuTracking, 212, 0, this.app, this.speakerContainer, this.speakerSliderContainer)
+        this.volumeSlider = new VolumeSlider(this.assets.SpeakerMenuVolume, 451, 0, this.app, this.speakerContainer, this.speakerSliderContainer)
+        //close button has 2 extra args, this is for removing blur filter 
+        //from rest of room when closing
+        //and hiding the speaker menu
+        this.speakerCloseButton = new CloseButton(this.assets.SpeakerMenuClose, 563, 0, this.app, this.speakerContainer, this.speakerButtonsContainer, this.roomEntitiesContainer, this.setHideSpeakerMenu)
+        this.speakerCloseButton.label = 'speaker_power_button'
+        
+        this.speakerContainer.addChild(this.speakerButtonsContainer, this.speakerSliderContainer)
+        
+
+        this.speakerContainer.filters = [new CRTFilter({animating: true})]
+    }
+
+    setDisplaySpeakerMenu = () => {
+        this.app.stage.addChild(this.speakerContainer)
+        this.isSpeakerMenuDisplaying = true
+    }
+
+    setHideSpeakerMenu = () => {
+        this.app.stage.removeChild(this.speakerContainer)
+        this.isSpeakerMenuDisplaying = false
     }
 
     setDisplayDesktop = () => {
@@ -257,6 +320,22 @@ export default class RoomScene{
         
 
         this.tvStandObject = new TV_Stand(spritesheet, 246, 296.5, this.app, arrowSpriteSheet, this.roomEntitiesContainer, this.desktopContainer, this.assets.TVStandImg, this.assets, this.weatherJson, this.weatherIcons, this.lastPlayedJson)
+    }
+
+    create_speaker_object = async () => {
+        const arrowSpriteSheet = new PIXI.Spritesheet(
+            PIXI.Texture.from(selection_arrow_sprite_sheet_json.meta.image),
+            selection_arrow_sprite_sheet_json
+            );
+            await arrowSpriteSheet.parse();
+    
+            const spritesheet = new PIXI.Spritesheet(
+            PIXI.Texture.from(speaker_sprite_sheet_json.meta.image),
+            speaker_sprite_sheet_json
+            );
+            await spritesheet.parse();
+            
+            this.speakerObject = new Speaker(spritesheet, 352, 395, this.app, arrowSpriteSheet, this.roomEntitiesContainer, this.speakerContainer, this.assets, this.setDisplaySpeakerMenu, this.setHideSpeakerMenu, this.songsObject)
     }
 
     run = (delta) =>{

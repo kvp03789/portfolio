@@ -19,6 +19,16 @@ import WindowImg from './img/png/window.png'
 import TestBG from './img/png/test_bg.png'
 import TextMask from './img/png/text_mask.png'
 import SpotifyPixel from './img/png/spotify_pixel.png'
+import Speaker from './img/png/speaker.png'
+import SpeakerMenuBackground from './img/png/speaker_menu_background.png'
+import SpeakerMenuTracking from './img/png/speaker_menu_tracking.png'
+import SpeakerMenuVolume from './img/png/speaker_menu_volume.png'
+import SpeakerMenuClose from './img/png/speaker_menu_close.png'
+import SpeakerMenuPlay from './img/png/speaker_menu_play.png'
+import SpeakerMenuPause from './img/png/speaker_menu_pause.png'
+import SpeakerMenuStop from './img/png/speaker_menu_stop.png'
+import SpeakerMenuNext from './img/png/speaker_menu_next.png'
+import SpeakerMenuPrevious from './img/png/speaker_menu_previous.png'
 import TVBackground from './img/png/tv_background.png'
 import TVGlare from './img/png/tv_glare.png'
 import TVBackgroundLandscape from './img/png/tv_background_landscape.png'
@@ -42,6 +52,7 @@ import OnlineSpriteSheet from './img/sprite_sheets/online_sprite_sheet.png'
 import SelectionArrowSpriteSheet from './img/sprite_sheets/selection_arrow_sprite_sheet.png'
 import TVStandSpriteSheet from './img/sprite_sheets/tv_stand_sprite_sheet.png'
 import PixelRainSpriteSheet from './img/sprite_sheets/rain_sprite_sheet.png'
+import SpeakerSpriteSheet from './img/sprite_sheets/speaker_sprite_sheet.png'
 
 //weather icons
 import DayClear from './img/png/weather_icons/day/clear.png'
@@ -53,6 +64,12 @@ import NightCloudy from './img/png/weather_icons/night/cloudy.png'
 import NightRain from './img/png/weather_icons/night/rain.png'
 import NightStorm from './img/png/weather_icons/night/storm.png'
 import NightMist from './img/png/weather_icons/night/mist.png'
+//sound
+import FourAmNostalgia from './sounds/4am nostalgia.mp3'
+import ElevenAmLight from './sounds/11am.mp3'
+import FourPmRain from './sounds/4pm rain.mp3'
+import RoomNoise from './sounds/room_noise.mp3'
+import Rain from './sounds/rain.mp3'
 
 export const roomSceneManifest =  {
    "bundles":[
@@ -146,7 +163,47 @@ export const roomSceneManifest =  {
             {
                "alias": "TVBackgroundLandscape",
                "src": TVBackgroundLandscape
-            }
+            },
+            {
+               "alias": "Speaker",
+               "src": Speaker
+            },
+            {
+               "alias": "SpeakerMenuBackground",
+               "src": SpeakerMenuBackground
+            },
+            {
+               "alias": "SpeakerMenuTracking",
+               "src": SpeakerMenuTracking
+            },
+            {
+               "alias": "SpeakerMenuVolume",
+               "src": SpeakerMenuVolume
+            },
+            {
+               "alias": "SpeakerMenuClose",
+               "src": SpeakerMenuClose
+            },
+            {
+               "alias": "SpeakerMenuPlay",
+               "src": SpeakerMenuPlay
+            },
+            {
+               "alias": "SpeakerMenuPause",
+               "src": SpeakerMenuPause
+            },
+            {
+               "alias": "SpeakerMenuStop",
+               "src": SpeakerMenuStop
+            },
+            {
+               "alias": "SpeakerMenuNext",
+               "src": SpeakerMenuNext
+            },
+            {
+               "alias": "SpeakerMenuPrevious",
+               "src": SpeakerMenuPrevious
+            },
          ]
       },
       {
@@ -191,7 +248,11 @@ export const roomSceneManifest =  {
             {
                "alias": "PixelRainSpriteSheet",
                "src": PixelRainSpriteSheet
-            }
+            },
+            {
+               "alias": "SpeakerSpriteSheet",
+               "src": SpeakerSpriteSheet
+            },
          ]
       },
       {
@@ -263,6 +324,31 @@ export const roomSceneManifest =  {
                "src":NightMist
             },
          ]
+      },
+      {
+         "name": "sound",
+         "assets": [
+            {
+               "alias":"FourAmNostalgia",
+               "src":FourAmNostalgia
+            },
+            {
+               "alias":"ElevenAmLight",
+               "src":ElevenAmLight
+            },
+            {
+               "alias":"FourPmRain",
+               "src":FourPmRain
+            },
+            {
+               "alias":"RoomNoise",
+               "src":RoomNoise
+            },
+            {
+               "alias":"Rain",
+               "src":Rain
+            },
+         ]
       }
    ]
 }
@@ -281,6 +367,7 @@ export const pngImages = {
     Plant1Img: Plant1Img, 
     Plant2Img: Plant2Img, 
     PosterImg: PosterImg,
+    SpeakerMenuBackground: SpeakerMenuBackground,
     TVStandImg: TVStandImg, 
     WindowImg: WindowImg
 }
@@ -291,7 +378,8 @@ export const spriteSheets = {
     DeskSpriteSheet: DeskSpriteSheet, 
     DeskSpriteSheet2: DeskSpriteSheet2,
     LavaLampSpriteSheet: LavaLampSpriteSheet, 
-    SelectionArrowSpriteSheet: SelectionArrowSpriteSheet
+    SelectionArrowSpriteSheet: SelectionArrowSpriteSheet,
+    SpeakerSpriteSheet: SpeakerSpriteSheet
 }
 
 
