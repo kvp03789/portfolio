@@ -32,6 +32,8 @@ import SpeakerMenuPrevious from './img/png/speaker_menu_previous.png'
 import TVBackground from './img/png/tv_background.png'
 import TVGlare from './img/png/tv_glare.png'
 import TVBackgroundLandscape from './img/png/tv_background_landscape.png'
+import ScrollButton from './img/png/scroll_button.png'
+import ScrollButtonInactive from './img/png/scroll_button_inactive.png'
 
 //icons
 import MyComputerIcon from './img/png/icons/my_computer_icon.png'
@@ -64,12 +66,16 @@ import NightCloudy from './img/png/weather_icons/night/cloudy.png'
 import NightRain from './img/png/weather_icons/night/rain.png'
 import NightStorm from './img/png/weather_icons/night/storm.png'
 import NightMist from './img/png/weather_icons/night/mist.png'
+
 //sound
 import FourAmNostalgia from './sounds/4am nostalgia.mp3'
 import ElevenAmLight from './sounds/11am.mp3'
 import FourPmRain from './sounds/4pm rain.mp3'
 import RoomNoise from './sounds/room_noise.mp3'
 import Rain from './sounds/rain.mp3'
+
+//fonts
+
 
 export const roomSceneManifest =  {
    "bundles":[
@@ -204,6 +210,14 @@ export const roomSceneManifest =  {
                "alias": "SpeakerMenuPrevious",
                "src": SpeakerMenuPrevious
             },
+            {
+               "alias": "ScrollButton",
+               "src": ScrollButton
+            },
+            {
+               "alias": "ScrollButtonInactive",
+               "src": ScrollButtonInactive
+            }
          ]
       },
       {
@@ -322,31 +336,6 @@ export const roomSceneManifest =  {
             {
                "alias":"NightMist",
                "src":NightMist
-            },
-         ]
-      },
-      {
-         "name": "sound",
-         "assets": [
-            {
-               "alias":"FourAmNostalgia",
-               "src":FourAmNostalgia
-            },
-            {
-               "alias":"ElevenAmLight",
-               "src":ElevenAmLight
-            },
-            {
-               "alias":"FourPmRain",
-               "src":FourPmRain
-            },
-            {
-               "alias":"RoomNoise",
-               "src":RoomNoise
-            },
-            {
-               "alias":"Rain",
-               "src":Rain
             },
          ]
       }

@@ -34,14 +34,18 @@ import TrackSlider from '../speaker_buttons/TrackSlider'
 import VolumeSlider from '../speaker_buttons/VolumeSlider'
 import NextButton from '../speaker_buttons/NextButton'
 import PreviousButton from '../speaker_buttons/PreviousButton'
+import SpeakerTrack from '../base_classes/SpeakerTrack'
+import { Howler } from 'howler'
+import NowPlaying from '../speaker_buttons/NowPlaying'
+import TrackList from '../speaker_buttons/TrackList'
 
 export default class RoomScene{
-    constructor(app, set_state, assets, sprite_sheets, onlineStatus, icons, weatherJson, weatherIcons, lastPlayedJson, songsObject){
+    constructor(app, set_state, assets, sprite_sheets, isOnline, icons, weatherJson, weatherIcons, lastPlayedJson, soundsObject){
         this.app = app
         this.set_state = set_state
 
         this.assets = assets
-        this.songsObject = songsObject
+        this.soundsObject = soundsObject
         this.sprite_sheets = sprite_sheets
         this.icons = icons
         this.weatherIcons = weatherIcons
@@ -55,7 +59,7 @@ export default class RoomScene{
 
         this.weatherJson = weatherJson
         // this.isOnline = onlineStatus
-        this.isOnline = true
+        this.isOnline = isOnline
 
         this.displayDesktop = false
         this.isDesktopDisplaying = false
@@ -64,9 +68,89 @@ export default class RoomScene{
         this.isSpeakerMenuDisplaying = false
 
         this.lastPlayedJson = lastPlayedJson
+
+        //the current track being played from speaker
+        this.currentTrackTitle = ''
+        this.currentTrack = null
+        this.currentTime = ''
+        this.volumeLevel = 0.5
     }
 
+    //functions that relate to audio player
 
+    //function for changing song position when user drag tracking bar it
+    updateTracking = (trackBarXPos) => {
+        console.log('changing track position...')
+        const rangeMin = 212
+        const rangeDifference = 379
+        //normalize? the range to be .00-.99
+        const newRange = (trackBarXPos - rangeMin)/rangeDifference
+        
+        if(this.currentTrack){
+            const trackDuration = this.currentTrack._duration
+            const newTime = trackDuration * newRange
+            this.currentTrack.seek(newTime)
+        }
+    }
+
+    updateTime = () => {
+        //time in seconds
+        let timeInSeconds = Math.floor(this.currentTrack.seek())
+        let secondsString = timeInSeconds < 10 ? '0' + timeInSeconds.toString() : timeInSeconds % 60 < 10 ? '0' + (timeInSeconds % 60).toString() : (timeInSeconds % 60).toString()
+        let minutesString = `${Math.floor((timeInSeconds / 60)).toString()}`
+        this.currentTime = `0${minutesString}:${secondsString}`
+        //set now playing screen
+        this.nowPlayingWindow.timeText.text = this.currentTime
+
+        
+        //pass in timeInSeconds and duration of current song
+        this.trackSlider.updatePosition(timeInSeconds, this.currentTrack._duration)
+        
+    }
+
+    playTrack = (audio, trackTitle) => {
+        this.app.ticker.remove(this.updateTime);
+        if(this.currentTrack){
+            this.currentTrack.stop()
+        }
+        this.currentTrackTitle = trackTitle
+        this.currentTrack = audio
+        this.currentTrack.play()
+        this.currentTrack.loop = true
+        this.currentTrack.volume = this.volumeLevel
+        //set now playing screen
+        this.nowPlayingWindow.titleText.text = this.currentTrackTitle
+
+        //TO DO: add function to ticker that will move tracking bar on song.onseek()
+
+        this.app.ticker.add(this.updateTime)
+        console.log(`now playing ${this.currentTrackTitle}`)
+
+        //logic to animate now playing title text
+        this.app.ticker.remove(this.nowPlayingWindow.animate)
+        this.app.ticker.add(this.nowPlayingWindow.animate)
+
+    }
+
+    pauseTrack = (audio, trackTitle) => {
+        if(this.currentTrack){
+            this.currentTrack.pause()
+        }
+    }
+
+    adjustVolume = (sliderPosX) => {
+        const range = 139
+        const level = (sliderPosX - 451)/range
+        //change level to 2 decimal number and set this.volumeLevel
+        this.volumeLevel = Math.floor(level * 100) / 100
+        Howler.volume(this.volumeLevel)
+        if(this.currentTrack){
+            // this.currentTrack.volume(this.volumeLevel)
+        }
+        console.log('adjusting volume...', this.volumeLevel, this.currentTrack)
+    }
+
+    //functions to initialize various assets
     initializeAssets = async () => {
         this.roomEntitiesContainer = new PIXI.Container()
         await this.initializeDesktopAssets()
@@ -136,6 +220,7 @@ export default class RoomScene{
     }
 
     initializeSpeakerMenuAssets = async () => {
+        //speakerContainer is the container for ALL audio/speaker menu assets
         this.speakerContainer = new PIXI.Container({isRenderGroup: true})
         this.speakerContainer.label = 'speaker_container'
 
@@ -144,7 +229,6 @@ export default class RoomScene{
         this.speakerMenuBackground.x = 400
         this.speakerMenuBackground.y = 300
         this.speakerMenuBackground.alpha = 0
-        this.speakerContainer.addChild(this.speakerMenuBackground)
 
         //speaker buttons setup
         this.speakerButtonsContainer = new PIXI.Container()
@@ -161,17 +245,42 @@ export default class RoomScene{
         this.speakerPauseButton = new PauseButton(this.assets.SpeakerMenuPause, buttonOffset + 3 * (buttonSpacingSize + buttonWidth), 23, this.app, this.speakerContainer, this.speakerButtonsContainer)
         this.speakerNextButton = new NextButton(this.assets.SpeakerMenuNext, buttonOffset + 4 * (buttonSpacingSize + buttonWidth), 23, this.app, this.speakerContainer, this.speakerButtonsContainer)
 
-        this.trackSlider = new TrackSlider(this.assets.SpeakerMenuTracking, 212, 0, this.app, this.speakerContainer, this.speakerSliderContainer)
-        this.volumeSlider = new VolumeSlider(this.assets.SpeakerMenuVolume, 451, 0, this.app, this.speakerContainer, this.speakerSliderContainer)
+        this.trackSlider = new TrackSlider(this.assets.SpeakerMenuTracking, 212, 0, this.app, this.speakerContainer, this.speakerSliderContainer, this.updateTracking)
+        this.volumeSlider = new VolumeSlider(this.assets.SpeakerMenuVolume, 520.5, 0, this.app, this.speakerContainer, this.speakerSliderContainer, this.adjustVolume)
         //close button has 2 extra args, this is for removing blur filter 
         //from rest of room when closing
         //and hiding the speaker menu
         this.speakerCloseButton = new CloseButton(this.assets.SpeakerMenuClose, 563, 0, this.app, this.speakerContainer, this.speakerButtonsContainer, this.roomEntitiesContainer, this.setHideSpeakerMenu)
         this.speakerCloseButton.label = 'speaker_power_button'
-        
-        this.speakerContainer.addChild(this.speakerButtonsContainer, this.speakerSliderContainer)
-        
 
+        //setup for tracks/track list        
+        const trackLabelWidth = 400
+        const trackLabelHeight = 30
+        const containerPosition = {x: 189.5, y: 348.5}
+        this.trackListSection = new TrackList(containerPosition.x, containerPosition.y, this.app, trackLabelHeight, trackLabelWidth, this.soundsObject, this.speaker, this.speakerContainer, this.speakerButtonsContainer, this.playTrack, this.currentTrack, this.assets.ScrollButton, this.assets.ScrollButtonInactive)
+        this.trackListSection.init()
+        // this.allTracksContainer = new PIXI.Container()
+        // this.allTracksContainer.label = 'all_tracks_container'
+        // this.allTracksContainer.position.set(containerPosition.x, containerPosition.y)
+        // //loop through soundsObject and make a new SpeakerTrack instance for each
+        // Object.values(this.soundsObject).forEach((sound, index) => {
+        //     //skip the first two because they are room noise and rain noise
+        //     if(index > 1){
+        //         const posX = 0
+        //         const posY = trackLabelHeight * (index + 1)
+        //         const track = new SpeakerTrack(trackLabelWidth , trackLabelHeight, posX, posY, this.app, this.speaker, this.allTracksContainer, this.speakerContainer, this.speakerButtonsContainer, sound.audio, sound.title, index, this.playTrack, this.currentTrack, this.soundsObject)
+        //         track.init()
+        //     }
+        // })
+        
+        //setup for now playing screen
+        const width = 216
+        const height = 100
+        this.nowPlayingWindow = new NowPlaying(width , height, 210, 102.5, this.app, this.allTracksContainer, this.speakerContainer, this.speakerButtonsContainer, this.currentTrack, this.soundsObject)
+        this.nowPlayingWindow.init()
+
+        //add all group containers to speakerContainer
+        this.speakerContainer.addChild(this.speakerMenuBackground, this.speakerButtonsContainer, this.speakerSliderContainer, this.trackListSection.allTracksContainer, this.nowPlayingWindow.container)
         this.speakerContainer.filters = [new CRTFilter({animating: true})]
     }
 
@@ -335,7 +444,8 @@ export default class RoomScene{
             );
             await spritesheet.parse();
             
-            this.speakerObject = new Speaker(spritesheet, 352, 395, this.app, arrowSpriteSheet, this.roomEntitiesContainer, this.speakerContainer, this.assets, this.setDisplaySpeakerMenu, this.setHideSpeakerMenu, this.songsObject)
+            this.speakerObject = new Speaker(spritesheet, 352, 395, this.app, arrowSpriteSheet, this.roomEntitiesContainer, this.speakerContainer, this.assets, this.setDisplaySpeakerMenu, this.setHideSpeakerMenu, this.soundsObject)
+            this.speakerObject.init()
     }
 
     run = (delta) =>{

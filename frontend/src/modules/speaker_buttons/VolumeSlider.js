@@ -2,7 +2,7 @@ import SpeakerButton from "../base_classes/SpeakerButton"
 import { DropShadowFilter } from "pixi-filters";
 
 export default class VolumeSlider extends SpeakerButton{
-    constructor(texture, x_pos, y_pos, app, speakerContainer, speakerSliderContainer){
+    constructor(texture, x_pos, y_pos, app, speakerContainer, speakerSliderContainer, adjustVolume){
         super(texture, x_pos, y_pos, app, speakerContainer, speakerSliderContainer)
         // this.sprite.on('pointerdown', this.handleClick);
         this.sprite.anchor.set(0.5);
@@ -19,6 +19,7 @@ export default class VolumeSlider extends SpeakerButton{
         this.sprite.on('pointerupoutside', this.onDragEnd);
 
         this.dragTarget = null
+        this.adjustVolume = adjustVolume
     }  
 
     handleClick = () => {
@@ -43,9 +44,10 @@ export default class VolumeSlider extends SpeakerButton{
             {
                 const newPosition = this.dragTarget.parent.toLocal(event.global);
                 //check that the slider doesnt move outside of its bounds
-                if(newPosition.x >= this.x_pos && newPosition.x <= this.x_pos + 139){
+                if(newPosition.x >= this.x_pos - 69.5 && newPosition.x <= this.x_pos + 69.5){
                     const newPosition = this.dragTarget.parent.toLocal(event.global);
                     this.dragTarget.position.x = newPosition.x;
+                    this.adjustVolume(newPosition.x)
                 }
                     
             }

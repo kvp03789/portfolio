@@ -14,6 +14,7 @@ async function getLastPlayedTrack() {
     try {
         const response = await fetch(url);
         const data = await response.json();
+        console.log('DEBUG HERES THE DATA: ', data)
         
         if (data.recenttracks.track && data.recenttracks.track.length > 0) {
             const track = data.recenttracks.track[0];

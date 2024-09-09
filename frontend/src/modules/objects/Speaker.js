@@ -6,7 +6,7 @@ import * as TWEEN from "@tweenjs/tween.js"
 
 
 export default class Speaker extends AnimatedObject {
-    constructor(sprite_sheet, x_pos, y_pos, app, arrowSpriteSheet, roomEntitiesContainer, speakerContainer, pngAssets, displaySpeakerMenu, hideSpeakerMenu, songsObject){
+    constructor(sprite_sheet, x_pos, y_pos, app, arrowSpriteSheet, roomEntitiesContainer, speakerContainer, pngAssets, displaySpeakerMenu, hideSpeakerMenu, soundsObject){
         super(sprite_sheet, x_pos, y_pos, app, arrowSpriteSheet, roomEntitiesContainer, speakerContainer)
         this.frameWidth = 69,
         this.frameHeight = 70,
@@ -29,12 +29,18 @@ export default class Speaker extends AnimatedObject {
         this.displaySpeakerMenu = displaySpeakerMenu
         this.hideSpeakerMenu = hideSpeakerMenu
 
-        this.songsObject = songsObject
-        console.log('DEBUG - SONGSOBJECT: ', this.songsObject)
+        this.soundsObject = soundsObject
         
     }
 
+    init = () => {
+        for (const audio in this.soundsObject){
+            console.log(this.soundsObject[audio])
+        }
+    }
+
     handleClick = () => {
+
         console.log("speaker clicked!!!", this.app)
         
         const blurFilter = new BlurFilter()
@@ -136,5 +142,9 @@ export default class Speaker extends AnimatedObject {
             speakerContainerTween.start()
         })
         // this.setDisplayDesktop()
+    }
+
+    handleTrackClick = (track) => {
+        console.log(`you clicked ${track.trackTitle}`)
     }
 }

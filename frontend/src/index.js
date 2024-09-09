@@ -6,12 +6,19 @@ import { importAll } from "./utils.js"
 import * as PIXI from 'pixi.js'
 import { roomSceneManifest, loadAssets, pngImages } from './image_imports.js'
 import * as TWEEN from "@tweenjs/tween.js"
+import { Howl, Howler } from 'howler';
 import PixelLoveIcon from './img/icons/love.png'
 import PixelWindowIcon from './img/icons/heart_window.png'
 import PixelMusicIcon from './img/icons/music.png'
 import getLastPlayedTrack from '../../backend/routes/lastFm.js'
-import RoomSound from './sounds/4am nostalgia.mp3';
 import './westieCursor.js'
+import RoomSound from './sounds/room_noise.mp3'
+import RainSound from './sounds/rain.mp3'
+import FouramNostalgia from './sounds/4am nostalgia.mp3'
+import ElevenAmLight from './sounds/11am.mp3'
+import ThreePmRain from './sounds/4pm rain.mp3'
+import SixPmDistress from './sounds/6pm distress.mp3'
+import TenPmWishful from './sounds/wishful.mp3'
 
 
 const WIDTH = 800
@@ -50,6 +57,36 @@ let isOnline
 //         console.log(e)
 //     }
 // }
+
+//preload all audio
+const sounds = {
+    RoomSound: {audio: new Howl({ src: [RoomSound]}), title: 'room sound'},
+    RainSound: {audio: new Howl({src: [RainSound]}), title: 'rain sound'},
+    FouramNostalgia: {audio: new Howl({src: [FouramNostalgia]}), title: '4 am [nostalgia]'},
+    ElevenAmLight: {audio: new Howl({src: [ElevenAmLight]}), title: '11 am [light]'},
+    ThreePmRain: {audio: new Howl({src: [ThreePmRain]}), title: '3 pm [searching 4 u]'},
+    SixPmDistress: {audio: new Howl({src: [SixPmDistress]}), title: '6 pm [distress]'},
+    TenPmWishful: {audio: new Howl({src: [TenPmWishful]}), title: '10 pm [wishful]'}
+}
+
+function preloadSound(sound){
+    return new Promise((resolve, reject) => {
+        sound.once('load', resolve)
+        sound.once('loaderror', (id, error) => reject(error))
+    })
+}
+
+async function preloadAllSounds(sounds) {
+    try {
+        const loadPromises = Object.values(sounds).map(preloadSound);
+        await Promise.all(loadPromises);
+        console.log('all sounds are loaded');
+    } catch (error) {
+        console.error('error loading sounds dog T-T:', error);
+    }
+}
+
+
 
 async function getWeather () {
     console.log('fetching weather data...')
@@ -106,7 +143,11 @@ window.onload = async () => {
     const lastPlayedJson = await awaitGetLastFm()
     const weatherJson = await getWeather()
     // const tweet = await getTweet()
-
+    await preloadAllSounds()
+    // sounds.RainSound.play()
+    // sounds.RoomSound.play()
+    sounds.RainSound.audio.loop()
+    sounds.RoomSound.audio.loop()
     const aboutWindow= new AboutWindow()
     const twitterWindow = new TwitterStatusWindow()
     const musicWindow = new LastPlayedWindow()
@@ -118,8 +159,8 @@ window.onload = async () => {
     musicWindow.init(lastPlayedJson)
     createAudio()
     const application = new Application()
-    await application.init(true, weatherJson, lastPlayedJson)
-
+    await application.init(true, weatherJson, lastPlayedJson, sounds)
+    console.log('THE REAL SOUDNS OBJECT: ', sounds)
     
 }
     
@@ -200,6 +241,9 @@ class TwitterStatusWindow{
         this.title = document.createElement('h3')
         this.bodyContainerDiv = document.createElement('div')
         this.bodyParagraph = document.createElement('p')
+        this.timeStampDiv = document.createElement('div')
+        this.timeStampText = document.createElement('div')
+        this.dateStampText = document.createElement('p')
     }
 
     init(){
@@ -209,13 +253,19 @@ class TwitterStatusWindow{
         this.title.classList.add("status-title", "section-title")
         this.bodyContainerDiv.classList.add("status-body-container-div")
         this.bodyParagraph.classList.add("status-body-paragraph")
+        this.timeStampDiv.classList.add("status-timestamp-container")
+        this.timeStampText.classList.add("status-timestamp-text")
+        this.dateStampText.classList.add("status-datestamp-text")
 
         this.title.textContent = "current status"
         this.bodyParagraph.textContent = "ummm i'm just coding n stuff"
-        
+        this.dateStampText.textContent = "09/09/2024"
+        this.timeStampText.textContent = '10:41pm'
+
+        this.timeStampDiv.append(this.dateStampText, this.timeStampText)
         this.titleContainerDiv.append(this.icon, this.title)
         this.bodyContainerDiv.append(this.bodyParagraph)
-        this.containerDiv.append(this.titleContainerDiv, this.bodyContainerDiv)
+        this.containerDiv.append(this.titleContainerDiv, this.bodyContainerDiv, this.timeStampDiv)
         document.querySelector(".main-outside-container").append(this.containerDiv)
     }
 }
@@ -259,32 +309,28 @@ class LastPlayedWindow{
 
 export default class Application{
     constructor(){
-        
         this.app = new PIXI.Application()
         this.ticker = PIXI.Ticker.shared
         //enable pixijs chrome dev tool
         globalThis.__PIXI_APP__ = this.app;
-
-        
-        
     }
 
-    init = async (isOnline, weatherJson, lastPlayedJson) => {
+    init = async (isOnline, weatherJson, lastPlayedJson, soundsObject) => {
         try {
             await this.app.init({ width: 800, height: 600, preference:'webgl' });
             document.body.append(this.app.canvas)
             PIXI.Assets.init({manifest: roomSceneManifest})
             // PIXI.Assets.backgroundLoadBundle(['png', 'sprite_sheets']);
             // const assets = await PIXI.Assets.loadBundle('png');
+            this.soundsObject = soundsObject
             this.assets = await PIXI.Assets.loadBundle('png');
-            this.songsObject = await PIXI.Assets.loadBundle('sound');
             this.sprite_sheets = await PIXI.Assets.loadBundle('sprite_sheets')
             this.icons = await PIXI.Assets.loadBundle('icons')
             this.weatherIcons = await PIXI.Assets.loadBundle('weather_icons')
             this.stateManager = new StateManager('room_scene')
             this.currentState = this.stateManager.currentState
 
-            this.roomScene = new RoomScene(this.app, this.set_state, this.assets, this.sprite_sheets, isOnline, this.icons, weatherJson, this.weatherIcons, lastPlayedJson, this.songsObject)
+            this.roomScene = new RoomScene(this.app, this.set_state, this.assets, this.sprite_sheets, isOnline, this.icons, weatherJson, this.weatherIcons, lastPlayedJson, this.soundsObject)
             this.desktopScene = new DesktopScene(this.app, this.set_state, this.assets, this.sprite_sheets)
 
             this.statesObject = {
